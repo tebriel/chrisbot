@@ -19,4 +19,5 @@ jobs:
         export IMAGE_TAG=$(date +%s)
         docker build . --file Dockerfile --tag chrisbot:${IMAGE_TAG}
         docker tag chrisbot:${IMAGE_TAG} docker.pkg.github.com/tebriel/chrisbot/chrisbot:${IMAGE_TAG}
+        docker login https://docker.pkg.github.com -u tebriel --password ${{ secrets.GITHUB_TOKEN }}
         docker push docker.pkg.github.com/tebriel/chrisbot/chrisbot:${IMAGE_TAG}
