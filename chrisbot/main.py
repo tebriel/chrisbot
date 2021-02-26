@@ -13,6 +13,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 BOT_LOOP = None
 BOT_USERNAME = os.environ["KEYBASE_USERNAME"]
+BOT_LOGGER = logging.getLogger(name='keybasebot')
 
 def handler(signum, _):
     """Handle stop event"""
@@ -28,6 +29,7 @@ class Handler:
     """Handles incoming messages from keybase"""
     async def __call__(self, bot, event) -> None:
         if self.should_skip(event):
+            BOT_LOGGER.info('Skipping event: %s', event)
             return
 
         message = event.msg.content.text.body
@@ -50,6 +52,8 @@ class Handler:
     @staticmethod
     def should_skip(event: KbEvent) -> bool:
         """Determine if we should skip this message"""
+        if event.msg is None or event.msg.content is None:
+            return True
         if event.msg.content.type_name != chat1.MessageTypeStrings.TEXT.value:
             return True
         # Avoid duplicates when local + remote come through
