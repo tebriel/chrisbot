@@ -66,8 +66,8 @@ class Handler:
 
 
 listen_options = {
-    "local": True,
-    "wallet": True,
+    "local": False,
+    "wallet": False,
     "dev": True,
     "hide-exploding": False,
     "convs": True,
